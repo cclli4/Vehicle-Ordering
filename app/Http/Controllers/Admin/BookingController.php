@@ -102,4 +102,34 @@ class BookingController extends Controller
         $booking->load(['user', 'vehicle', 'driver', 'approvals.approver']);
         return view('admin.bookings.show', compact('booking'));
     }
+
+    public function edit(Booking $booking)
+    {
+        $vehicles = Vehicle::all();
+        $drivers = User::where('role', 'driver')->get();
+        return view('admin.bookings.edit', compact('booking', 'vehicles', 'drivers'));
+    }
+
+    public function update(Request $request, Booking $booking)
+{
+    $validatedData = $request->validate([
+        'vehicle_id' => 'required|exists:vehicles,id',
+        'driver_id' => 'required|exists:users,id',
+        'purpose' => 'required|string',
+        'start_date' => 'required|date',
+        'end_date' => 'required|date|after:start_date',
+        'notes' => 'nullable|string',
+    ]);
+
+    $booking->update($validatedData);
+
+    return redirect()->route('admin.bookings.show', $booking)
+        ->with('success', 'Booking updated successfully');
+}
+
+public function print(Booking $booking)
+{
+    return view('admin.bookings.print', compact('booking'));
+}
+
 }

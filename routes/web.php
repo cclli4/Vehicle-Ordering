@@ -50,6 +50,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('bookings', BookingController::class);
     Route::get('bookings/{booking}/print', [BookingController::class, 'print'])->name('bookings.print');
     
+    
     // User Management
     Route::resource('users', UserController::class);
     Route::post('users/{user}/activate', [UserController::class, 'activate'])->name('users.activate');

@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role', ['admin', 'approver']);
+            $table->enum('role', ['admin', 'approver', 'driver']);
             $table->integer('approval_level')->default(1); // Level persetujuan untuk approver
             $table->rememberToken();
             $table->timestamps();

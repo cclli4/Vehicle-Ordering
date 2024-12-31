@@ -10,7 +10,6 @@ class UserSeeder extends Seeder
 {
     public function run()
     {
-        // Data users yang akan dibuat
         $users = [
             [
                 'name' => 'Administrator',
@@ -34,13 +33,28 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('approver123'),
                 'role' => 'approver',
                 'approval_level' => 2,
+            ],
+            // Tambah driver
+            [
+                'name' => 'Driver 1',
+                'username' => 'driver1',
+                'email' => 'driver1@example.com',
+                'password' => Hash::make('driver123'),
+                'role' => 'driver',
+            ],
+            [
+                'name' => 'Driver 2',
+                'username' => 'driver2',
+                'email' => 'driver2@example.com',
+                'password' => Hash::make('driver123'),
+                'role' => 'driver',
             ]
         ];
 
         foreach ($users as $userData) {
             User::updateOrCreate(
-                ['username' => $userData['username']], // Key untuk mencari data yang sudah ada
-                $userData // Data yang akan di-update atau di-create
+                ['username' => $userData['username']],
+                $userData
             );
         }
     }

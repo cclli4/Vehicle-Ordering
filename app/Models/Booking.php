@@ -17,9 +17,17 @@ class Booking extends Model
         'purpose',
         'start_date',
         'end_date',
-        'status', // pending/approved/rejected/completed
+        'status',
         'current_approval_level',
         'notes'
+    ];
+    
+    protected $dates = ['start_date', 'end_date'];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'start_date' => 'datetime',
+        'end_date' => 'datetime',
     ];
 
     protected static function boot()
@@ -50,5 +58,24 @@ class Booking extends Model
     {
         return $this->hasMany(BookingApproval::class);
     }
-}
 
+    public function getStatusColorAttribute()
+    {
+        return [
+            'pending' => 'warning',
+            'approved' => 'success',
+            'rejected' => 'danger',
+            'completed' => 'info',
+        ][$this->status] ?? 'secondary';
+    }
+
+    public function getStatusLabelAttribute()
+    {
+        return [
+            'pending' => 'Menunggu',
+            'approved' => 'Disetujui',
+            'rejected' => 'Ditolak',
+            'completed' => 'Selesai',
+        ][$this->status] ?? 'Unknown';
+    }
+}

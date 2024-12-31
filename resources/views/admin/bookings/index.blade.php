@@ -12,9 +12,6 @@
     </div>
 
     <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Data Pemesanan</h6>
-        </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -43,15 +40,7 @@
                                 </span>
                             </td>
                             <td>
-                                <a href="{{ route('admin.bookings.show', $booking) }}" class="btn btn-info btn-sm">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{{ route('admin.bookings.edit', $booking) }}" class="btn btn-warning btn-sm">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="{{ route('admin.bookings.print', $booking) }}" class="btn btn-success btn-sm" target="_blank">
-                                    <i class="fas fa-print"></i>
-                                </a>
+                                @include('admin.bookings.partials.action-buttons', ['booking' => $booking])
                             </td>
                         </tr>
                         @endforeach
@@ -63,16 +52,10 @@
 </div>
 @endsection
 
-@push('styles')
-<link href="/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
-@endpush
-
 @push('scripts')
-<script src="/vendor/datatables/jquery.dataTables.min.js"></script>
-<script src="/vendor/datatables/dataTables.bootstrap4.min.js"></script>
 <script>
-$(document).ready(function() {
-    $('#dataTable').DataTable();
-});
+    $(document).ready(function() {
+        $('#dataTable').DataTable();
+    });
 </script>
 @endpush

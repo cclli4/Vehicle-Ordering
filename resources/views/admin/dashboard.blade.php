@@ -71,45 +71,38 @@
         </div>
     </div>
 
-    {{-- Chart Section --}}
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-    {{-- Vehicle Status Chart --}}
-    <div class="bg-white rounded-lg shadow-lg p-6">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-gray-700">Status Kendaraan</h3>
-            <div class="text-sm text-gray-500">Real-time Status</div>
+     {{-- Chart Section --}}
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {{-- Vehicle Status Chart --}}
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-700">Status Kendaraan</h3>
+                <div class="text-sm text-gray-500">Real-time Status</div>
+            </div>
+            <div class="relative" style="height: 300px;">
+                <canvas id="vehicleStatusChart"></canvas>
+            </div>
         </div>
-        <div class="relative" style="height: 300px;">
-            <canvas id="vehicleStatusChart"></canvas>
+
+        {{-- Monthly Usage Chart --}}
+        <div class="bg-white rounded-lg shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="text-lg font-semibold text-gray-700">Tren Penggunaan Bulanan</h3>
+                <div class="text-sm text-gray-500">{{ date('Y') }}</div>
+            </div>
+            <div class="relative" style="height: 300px;">
+                <canvas id="monthlyUsageChart"></canvas>
+            </div>
         </div>
     </div>
 
-    {{-- Monthly Usage Chart --}}
-    <div class="bg-white rounded-lg shadow-lg p-6">
+    {{-- Vehicle Type Distribution --}}
+    <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
         <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-gray-700">Tren Penggunaan Bulanan</h3>
-            <div class="text-sm text-gray-500">{{ date('Y') }}</div>
+            <h3 class="text-lg font-semibold text-gray-700">Distribusi Tipe Kendaraan</h3>
         </div>
-        <div class="relative" style="height: 300px;">
-            <canvas id="monthlyUsageChart"></canvas>
-        </div>
-    </div>
-</div>
-
-{{-- Vehicle Usage Trends --}}
-<div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-    <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-gray-700">Penggunaan Kendaraan</h3>
-        <div class="text-sm text-gray-500">Analisis Penggunaan</div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {{-- Vehicle Type Distribution --}}
         <div class="relative" style="height: 300px;">
             <canvas id="vehicleTypeChart"></canvas>
-        </div>
-        {{-- Usage Distribution --}}
-        <div class="relative" style="height: 300px;">
-            <canvas id="usageDistributionChart"></canvas>
         </div>
     </div>
 </div>
@@ -119,62 +112,47 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     try {
-        // Vehicle Status Chart (kode yang sudah ada)
+        // Vehicle Status Chart
         const vehicleStatusCtx = document.getElementById('vehicleStatusChart').getContext('2d');
-        const vehicleStatusChart = new Chart(vehicleStatusCtx, {
+        new Chart(vehicleStatusCtx, {
             type: 'doughnut',
-                data: vehicleStatusData,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '65%',
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            padding: 12,
-                            titleFont: {
-                                size: 14,
-                                weight: 'bold'
-                            },
-                            bodyFont: {
-                                size: 13
-                            },
-                            callbacks: {
-                                label: function(context) {
-                                    const label = context.label || '';
-                                    const value = context.raw || 0;
-                                    const total = context.dataset.data.reduce((acc, val) => acc + val, 0);
-                                    const percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
-                                    return `${label}: ${value} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    },
-                    animation: {
-                        animateScale: true,
-                        animateRotate: true
+            data: {
+                labels: ['Tersedia', 'Sedang Digunakan', 'Maintenance'],
+                datasets: [{
+                    data: [
+                        {{ $availableVehicles }}, 
+                        {{ $inUseVehicles }}, 
+                        {{ $maintenanceVehicles }}
+                    ],
+                    backgroundColor: [
+                        'rgb(34, 197, 94)',
+                        'rgb(59, 130, 246)',
+                        'rgb(249, 115, 22)'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#ffffff'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
                     }
                 }
+            }
         });
 
         // Monthly Usage Chart
         const monthlyUsageCtx = document.getElementById('monthlyUsageChart').getContext('2d');
-        const monthlyUsageChart = new Chart(monthlyUsageCtx, {
+        new Chart(monthlyUsageCtx, {
             type: 'line',
             data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
                 datasets: [{
-                    label: 'Penggunaan',
-                    data: [65, 75, 70, 80, 85, 90, 88, 87, 92, 88, 85, 95],
+                    label: 'Jumlah Pemesanan',
+                    data: @json($monthlyData),
                     borderColor: 'rgb(59, 130, 246)',
                     backgroundColor: 'rgba(59, 130, 246, 0.1)',
                     tension: 0.4,
@@ -192,14 +170,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 scales: {
                     y: {
                         beginAtZero: true,
-                        grid: {
-                            display: true,
-                            color: 'rgba(0, 0, 0, 0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
+                        ticks: {
+                            stepSize: 1
                         }
                     }
                 }
@@ -208,12 +180,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Vehicle Type Distribution
         const typeCtx = document.getElementById('vehicleTypeChart').getContext('2d');
+        const vehicleTypes = @json($vehicleTypes);
         new Chart(typeCtx, {
             type: 'pie',
             data: {
-                labels: ['Angkutan Orang', 'Angkutan Barang'],
+                labels: vehicleTypes.map(t => t.label),
                 datasets: [{
-                    data: [60, 40],
+                    data: vehicleTypes.map(t => t.value),
                     backgroundColor: [
                         'rgb(99, 102, 241)',
                         'rgb(249, 115, 22)'
@@ -226,34 +199,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 plugins: {
                     legend: {
                         position: 'bottom'
-                    }
-                }
-            }
-        });
-
-        // Usage Distribution Chart
-        const usageCtx = document.getElementById('usageDistributionChart').getContext('2d');
-        new Chart(usageCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Kantor Pusat', 'Cabang', 'Site A', 'Site B', 'Site C'],
-                datasets: [{
-                    label: 'Penggunaan',
-                    data: [30, 25, 20, 15, 10],
-                    backgroundColor: 'rgb(59, 130, 246)'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
                     }
                 }
             }
