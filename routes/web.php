@@ -38,7 +38,8 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin Routes
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {  // hapus middleware role dulu
+// hapus middleware role dulu
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
     
     // Vehicle Management
@@ -64,12 +65,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 // Approver Routes
-Route::middleware(['auth'])->prefix('approver')->name('approver.')->group(function () {  // hapus middleware role dulu
-    Route::get('dashboard', [ApproverDashboardController::class, 'index'])->name('dashboard');
-    
-// Route::group(['middleware' => ['auth', 'role:approver'], 'prefix' => 'approver', 'as' => 'approver.'], function () {
-//     // Dashboard
-//     Route::get('dashboard', [ApproverDashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth', 'approver'])->prefix('approver')->name('approver.')->group(function () {
+    Route::get('dashboard', [App\Http\Controllers\Approver\DashboardController::class, 'index'])->name('dashboard');
     
     // Approval Management
     Route::get('approvals', [ApprovalController::class, 'index'])->name('approvals.index');

@@ -26,8 +26,8 @@ class User extends Authenticatable
 
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'approval_level' => 'integer',
     ];
-
     public function bookings()
     {
         return $this->hasMany(Booking::class);

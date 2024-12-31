@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\BookingApproval;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -17,7 +18,8 @@ class DashboardController extends Controller
 
    public function index()
    {
-       $user = Auth::user();
+       try {
+        $user = Auth::user();
 
        // ambil pemesanan yang menunggu persetujuan
        $pendingApprovals = Booking::whereHas('approvals', function($query) use ($user) {
@@ -28,6 +30,11 @@ class DashboardController extends Controller
        ->latest()
        ->take(5)
        ->get();
+
+       Log::info('Pending approvals', [
+        'count' => $pendingApprovals->count(),
+        'data' => $pendingApprovals->toArray()
+    ]);
 
        // Statistik persetujuan
        $approvalStats = [
@@ -71,8 +78,15 @@ class DashboardController extends Controller
            'totalProcessed',
            'averageProcessingTime'
        ));
-   }
+    } catch (\Exception $e) {
+        Log::error('Error in approver dashboard', [
+            'message' => $e->getMessage(),
+            'trace' => $e->getTraceAsString()
+        ]);
 
+        return redirect()->back()->with('error', 'An error occurred while loading the dashboard.');
+    }
+}
    public function getApprovalStatistics()
    {
        $user = Auth::user();
