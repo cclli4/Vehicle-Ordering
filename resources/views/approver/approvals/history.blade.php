@@ -5,7 +5,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Riwayat Persetujuan</h1>
-        <a href="{{ route('approver.approvals.index') }}" 
+        <a href="/approver/approvals/history" 
            class="bg-indigo-500 hover:bg-indigo-600 text-white px-4 py-2 rounded">
             Kembali ke Daftar Persetujuan
         </a>

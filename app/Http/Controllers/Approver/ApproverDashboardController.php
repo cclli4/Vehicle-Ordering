@@ -49,5 +49,7 @@ class ApproverDashboardController extends Controller
             'approvalStats',
             'recentApprovals'
         ));
+
     }
+
 }

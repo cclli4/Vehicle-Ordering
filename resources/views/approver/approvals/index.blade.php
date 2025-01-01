@@ -5,7 +5,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold">Daftar Persetujuan Pemesanan</h1>
-        <a href="{{ route('approver.approvals.history') }}" 
+        <a href="/approver/approvals/history" 
            class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded">
             Lihat Riwayat
         </a>
@@ -75,7 +75,7 @@
                             </span>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <a href="{{ route('approver.approvals.show', $booking->id) }}" 
+                            <a href="/approver/approvals/{{$booking->id}}/show "  
                                class="text-indigo-600 hover:text-indigo-900">
                                 Detail
                             </a>

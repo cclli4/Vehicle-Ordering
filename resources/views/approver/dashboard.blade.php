@@ -79,7 +79,7 @@
                                     {{ $booking->start_date->format('d M Y H:i') }}
                                 </p>
                             </div>
-                            <a href="{{ route('approver.approvals.show', $booking->id) }}" 
+                            <a href="/approver/approvals/{{$booking->id}}/show "
                                class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700">
                                 Review
                             </a>

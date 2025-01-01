@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Approver\DashboardController as ApproverDashboardController;
 use App\Http\Controllers\Approver\ApprovalController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,7 +30,7 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     
     // Profile Routes
     Route::get('profile', [ProfileController::class, 'show'])->name('profile.show');
@@ -65,19 +66,23 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 });
 
 // Approver Routes
-Route::middleware(['auth', 'approver'])->prefix('approver')->name('approver.')->group(function () {
-    Route::get('dashboard', [App\Http\Controllers\Approver\DashboardController::class, 'index'])->name('dashboard');
+Route::middleware(['auth'])->prefix('approver')->name('approver')->group(function () {
+    // Route::get('dashboard', [App\Http\Controllers\Approver\DashboardController::class, 'index'])->name('dashboard');
     
+    Route::get('dashboard', [ApproverDashboardController::class, 'index'])->name('dashboard');
+
     // Approval Management
     Route::get('approvals', [ApprovalController::class, 'index'])->name('approvals.index');
     Route::get('approvals/{booking}', [ApprovalController::class, 'show'])->name('approvals.show');
     Route::post('approvals/{booking}/approve', [ApprovalController::class, 'approve'])->name('approvals.approve');
     Route::post('approvals/{booking}/reject', [ApprovalController::class, 'reject'])->name('approvals.reject');
-    Route::get('approvals/history', [ApprovalController::class, 'history'])->name('approvals.history');
+    // Route::get('/approvals/history', [ApprovalController::class, 'history'])->name('approvals.history');
+    Route::get('/history', [ApprovalController::class, 'history'])->name('approvals.history');
     
     // Reports Access
     Route::get('reports/bookings', [ReportController::class, 'index'])->name('reports.bookings');
 });
+// Route::get('test', [ApproverDashboardController::class, 'test'])->name('test');
 
 // Error Pages
 Route::fallback(function () {

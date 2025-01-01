@@ -5,7 +5,7 @@
 <div class="container mx-auto px-4 py-8">
     <div class="max-w-4xl mx-auto">
         <div class="mb-6">
-            <a href="{{ route('approver.approvals.index') }}" 
+            <a href="/approver/approvals/index"
                class="text-indigo-600 hover:text-indigo-900">
                 &larr; Kembali ke Daftar Persetujuan
             </a>

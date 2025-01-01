@@ -11,7 +11,7 @@
     <div class="min-h-screen flex">
         <!-- Sidebar -->
         <div class="bg-indigo-800 text-white w-64 py-6 px-4 fixed h-full">
-            <div class="text-2xl font-bold mb-8 px-4">Admin Panel</div>
+            <div class="text-2xl font-bold mb-8 px-4">Admin</div>
             
             <!-- Navigation Menu -->
             <nav class="space-y-2">

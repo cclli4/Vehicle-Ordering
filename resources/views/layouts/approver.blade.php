@@ -11,20 +11,20 @@
     <div class="min-h-screen flex">
         <!-- Sidebar -->
         <div class="bg-indigo-800 text-white w-64 py-6 px-4 fixed h-full">
-            <div class="text-2xl font-bold mb-8 px-4">Approver Panel</div>
+            <div class="text-2xl font-bold mb-8 px-4">Approver</div>
             
             <!-- Navigation Menu -->
             <nav class="space-y-2">
-                <a href="{{ route('approver.dashboard') }}" 
+                <a href="/approver/dashboard" 
                    class="block px-4 py-2 rounded-lg {{ request()->routeIs('approver.dashboard') ? 'bg-indigo-900' : 'hover:bg-indigo-700' }}">
                     <i class="fas fa-home mr-2"></i> Dashboard
                 </a>
-                <a href="{{ route('approver.approvals.index') }}" 
+                <a href="/approver/approvals"    
                    class="block px-4 py-2 rounded-lg {{ request()->routeIs('approver.approvals.*') ? 'bg-indigo-900' : 'hover:bg-indigo-700' }}">
                     <i class="fas fa-check-circle mr-2"></i> Persetujuan
                 </a>
-                <a href="{{ route('approver.approvals.history') }}" 
-                   class="block px-4 py-2 rounded-lg {{ request()->routeIs('approver.history') ? 'bg-indigo-900' : 'hover:bg-indigo-700' }}">
+                <a href="/approver/history" 
+                   class="block px-4 py-2 rounded-lg {{ request()->routeIs('approver.approvals.history') ? 'bg-indigo-900' : 'hover:bg-indigo-700' }}">
                     <i class="fas fa-history mr-2"></i> Riwayat
                 </a>
             </nav>
@@ -40,7 +40,7 @@
                     </div>
                     <div class="flex items-center">
                         <span class="text-gray-600 mr-4">{{ auth()->user()->name }}</span>
-                        <form action="{{ route('logout') }}" method="POST" class="inline">
+                        <form action="{{ route('logout') }}" method="GET" class="inline">
                             @csrf
                             <button type="submit" class="text-red-600 hover:text-red-800">
                                 <i class="fas fa-sign-out-alt"></i> Logout

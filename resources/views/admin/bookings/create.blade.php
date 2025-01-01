@@ -96,17 +96,14 @@
 
                 <!-- Pilih Approver -->
                 <div class="mb-6">
-                    <label for="approver_id" class="block text-sm font-medium text-gray-700 mb-2">
-                        Approver Level 1
+                    <label for="approver_role" class="block text-sm font-medium text-gray-700 mb-2">
+                        Approver
                     </label>
-                    <select id="approver_id" name="approver_id" required 
+                    <select id="approver_role" name="approver_role" required 
                             class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md">
                         <option value="">Pilih Approver</option>
-                        @foreach($approvers as $approver)
-                            <option value="{{ $approver->id }}" {{ old('approver_id') == $approver->id ? 'selected' : '' }}>
-                                {{ $approver->name }}
-                            </option>
-                        @endforeach
+                        <option value="approver1" {{ old('approver_role') == 'approver1' ? 'selected' : '' }}>Approver 1</option>
+                        <!-- <option value="approver2" {{ old('approver_role') == 'approver2' ? 'selected' : '' }}>Approver 2</option> -->
                     </select>
                 </div>
 
