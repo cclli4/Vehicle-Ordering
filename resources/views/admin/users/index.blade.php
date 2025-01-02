@@ -3,22 +3,22 @@
 @section('title', 'Manajemen User')
 
 @section('content')
-<div class="container mx-auto">
-    <div class="flex justify-between mb-6">
-        <h2 class="text-2xl font-semibold">Daftar User</h2>
+<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row justify-between mb-6">
+        <h2 class="text-2xl font-semibold text-center sm:text-left mb-4 sm:mb-0">Daftar User</h2>
         <a href="{{ route('admin.users.create') }}" 
-           class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
+           class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 text-center">
             <i class="fas fa-plus mr-2"></i>Tambah User
         </a>
     </div>
 
     @if(session('success'))
-    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6">
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6 rounded">
         {{ session('success') }}
     </div>
     @endif
 
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="bg-white rounded-lg shadow overflow-x-auto">
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
