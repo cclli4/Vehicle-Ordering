@@ -7,15 +7,15 @@
 ## Default User Credentials
 ```
 Admin User:
-Email: admin@example.com
+Username: admin
 Password: admin123
 
 Approver Level 1:
-Email: approver1@example.com
+Username: approver1
 Password: approver123
 
 Approver Level 2:
-Email: approver2@example.com
+Username: approver2
 Password: approver123
 ```
 

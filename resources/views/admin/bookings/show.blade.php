@@ -71,7 +71,7 @@
                                 {{ $booking->status_label }}
                             </span>
                         </p>
-                    </div>
+                    </div>  
                     <div class="mb-3">
                         <label class="form-label fw-bold">Approver Level 1</label>
                         <p>{{ $booking->approval1->approver->name ?? '-' }}</p>
